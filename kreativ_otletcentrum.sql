@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2021. Dec 01. 12:23
+-- Létrehozás ideje: 2021. Dec 03. 12:24
 -- Kiszolgáló verziója: 10.4.21-MariaDB
 -- PHP verzió: 7.3.31
 
@@ -32,6 +32,14 @@ CREATE TABLE `atvetel` (
   `atveteli_pont` varchar(255) COLLATE utf8mb4_hungarian_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `atvetel`
+--
+
+INSERT INTO `atvetel` (`id`, `atveteli_pont`) VALUES
+(2, 'Gyomro, Teszt utca 1'),
+(3, 'Budapest Teszt utca 2');
+
 -- --------------------------------------------------------
 
 --
@@ -50,8 +58,33 @@ CREATE TABLE `termekek` (
 --
 
 INSERT INTO `termekek` (`id`, `nev`, `ar`, `mennyiseg`) VALUES
-(1, 'valami', 2222, 2),
-(2, 'asdasdasdadsasa', 2222, 2);
+(1, 'adventi_koszoru', 6500, 9),
+(2, 'fagyongy', 300, 60),
+(4, '', 0, 0),
+(5, '', 0, 0),
+(6, '', 0, 0),
+(7, '', 0, 0),
+(8, '', 0, 0),
+(9, 'gyönyg', 2222, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `termek_leiras`
+--
+
+CREATE TABLE `termek_leiras` (
+  `id` int(11) NOT NULL,
+  `leiras` varchar(1000) COLLATE utf8mb4_hungarian_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `termek_leiras`
+--
+
+INSERT INTO `termek_leiras` (`id`, `leiras`) VALUES
+(2, 'sadasdas'),
+(3, 'gyertya');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -70,6 +103,12 @@ ALTER TABLE `termekek`
   ADD PRIMARY KEY (`id`);
 
 --
+-- A tábla indexei `termek_leiras`
+--
+ALTER TABLE `termek_leiras`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -77,12 +116,18 @@ ALTER TABLE `termekek`
 -- AUTO_INCREMENT a táblához `atvetel`
 --
 ALTER TABLE `atvetel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `termekek`
 --
 ALTER TABLE `termekek`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT a táblához `termek_leiras`
+--
+ALTER TABLE `termek_leiras`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 

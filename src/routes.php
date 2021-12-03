@@ -214,7 +214,7 @@ return function(Slim\App $app) {
         $app->post('/termek_leiras', function(Request $request, Response $response) {
             $input = json_decode($request->getBody(), true);
             // Bemenet validáció!
-            $termek_leirasa = Termek::create($input);
+            $termek_leirasa = Leiras::create($input);
             $termek_leirasa->save();
     
             $kimenet = $termek_leirasa->toJson();
