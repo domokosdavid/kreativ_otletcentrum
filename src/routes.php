@@ -202,7 +202,7 @@ return function(Slim\App $app) {
 
             //Leiras
 
-        $app->get('/termekek', function(Request $request, Response $response) {
+        $app->get('/termek_leiras', function(Request $request, Response $response) {
             $termekek = Termek::all();
             $kimenet = $termekek -> toJson();
     
@@ -210,7 +210,7 @@ return function(Slim\App $app) {
             return $response->withHeader('Content-Type', 'application/json');
         });
     
-        $app->post('/termekek', function(Request $request, Response $response) {
+        $app->post('/termek_leiras', function(Request $request, Response $response) {
             $input = json_decode($request->getBody(), true);
             // Bemenet validáció!
             $termek = Termek::create($input);
@@ -225,7 +225,7 @@ return function(Slim\App $app) {
                 ->withHeader('Content-Type', 'application/json');
         });
     
-        $app->delete('/termekek/{id}',
+        $app->delete('/termek_leiras/{id}',
             function (Request $request, Response $response, array $args) {
                 if (!is_numeric($args['id']) || $args['id'] <= 0) {
                     $ki = json_encode(['error' => 'Az ID pozitív egész szám kell legyen!']);
@@ -236,7 +236,7 @@ return function(Slim\App $app) {
                 }
                 $termek = Termek::find($args['id']);
                 if ($termek === null) {
-                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék']);
+                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék leírás']);
                     $response->getBody()->write($ki);
                     return $response
                         ->withHeader('Content-Type', 'application/json')
@@ -248,7 +248,7 @@ return function(Slim\App $app) {
             });
             
     
-            $app->put('/termekek/{id}', function(Request $request, Response $response, array $args){
+            $app->put('/termek_leiras/{id}', function(Request $request, Response $response, array $args){
                 if (!is_numeric($args['id']) || $args['id'] <= 0) {
                     $ki = json_encode(['error' => 'Az ID pozitív egész szám kell legyen!']);
                     $response->getBody()->write($ki);
@@ -258,7 +258,7 @@ return function(Slim\App $app) {
                 }
                 $termek = Termek::find($args['id']);
                 if ($termek === null) {
-                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék']);
+                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék leírás']);
                     $response->getBody()->write($ki);
                     return $response
                         ->withHeader('Content-Type', 'application/json')
@@ -273,7 +273,7 @@ return function(Slim\App $app) {
                         ->withStatus(200);
             });
     
-            $app->get('/termekek/{id}', function(Request $request, Response $response, array $args){
+            $app->get('/termek_leiras/{id}', function(Request $request, Response $response, array $args){
                 if (!is_numeric($args['id']) || $args['id'] <= 0) {
                     $ki = json_encode(['error' => 'Az ID pozitív egész szám kell legyen!']);
                     $response->getBody()->write($ki);
@@ -283,7 +283,7 @@ return function(Slim\App $app) {
                 }
                 $termek = Termek::find($args['id']);
                 if ($termek === null) {
-                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék']);
+                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék leírás']);
                     $response->getBody()->write($ki);
                     return $response
                         ->withHeader('Content-Type', 'application/json')
