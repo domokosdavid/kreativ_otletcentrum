@@ -4,6 +4,7 @@
 
 use Petrik\Termekek\Atvet;
 use Petrik\Termekek\Termek;
+use Petrik\Termekek\Leiras;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -203,8 +204,8 @@ return function(Slim\App $app) {
             //Leiras
 
         $app->get('/termek_leiras', function(Request $request, Response $response) {
-            $termekek = Termek::all();
-            $kimenet = $termekek -> toJson();
+            $termekek_leiras = Leiras::all();
+            $kimenet = $termekek_leiras -> toJson();
     
             $response->getBody()->write($kimenet);
             return $response->withHeader('Content-Type', 'application/json');
@@ -213,10 +214,10 @@ return function(Slim\App $app) {
         $app->post('/termek_leiras', function(Request $request, Response $response) {
             $input = json_decode($request->getBody(), true);
             // Bemenet validáció!
-            $termek = Termek::create($input);
-            $termek->save();
+            $termek_leirasa = Termek::create($input);
+            $termek_leirasa->save();
     
-            $kimenet = $termek->toJson();
+            $kimenet = $termek_leirasa->toJson();
     
             
             $response->getBody()->write($kimenet);
@@ -234,15 +235,15 @@ return function(Slim\App $app) {
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(400);
                 }
-                $termek = Termek::find($args['id']);
-                if ($termek === null) {
+                $termek_leirasa = Leiras::find($args['id']);
+                if ($termek_leirasa === null) {
                     $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék leírás']);
                     $response->getBody()->write($ki);
                     return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(404);
                 }
-                $termek->delete();
+                $termek_leirasa->delete();
                 return $response
                     ->withStatus(204);
             });
@@ -256,8 +257,8 @@ return function(Slim\App $app) {
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(400);
                 }
-                $termek = Termek::find($args['id']);
-                if ($termek === null) {
+                $termek_leirasa = Leiras::find($args['id']);
+                if ($termek_leirasa === null) {
                     $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék leírás']);
                     $response->getBody()->write($ki);
                     return $response
@@ -265,9 +266,9 @@ return function(Slim\App $app) {
                         ->withStatus(404);
                 }
                 $input = json_decode($request->getBody(), true);
-                $termek->fill($input);
-                $termek->save();
-                $response->getBody()->write($termek->toJson());
+                $termek_leirasa->fill($input);
+                $termek_leirasa->save();
+                $response->getBody()->write($termek_leirasa->toJson());
                 return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(200);
@@ -281,8 +282,8 @@ return function(Slim\App $app) {
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(400);
                 }
-                $termek = Termek::find($args['id']);
-                if ($termek === null) {
+                $termek_leirasa = Leiras::find($args['id']);
+                if ($termek_leirasa === null) {
                     $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék leírás']);
                     $response->getBody()->write($ki);
                     return $response
@@ -290,7 +291,7 @@ return function(Slim\App $app) {
                         ->withStatus(404);
                 }
 
-                $response->getBody()->write($termek->toJson());
+                $response->getBody()->write($termek_leirasa->toJson());
                 return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(200);
