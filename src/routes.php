@@ -199,5 +199,101 @@ return function(Slim\App $app) {
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(200);
             });
+
+            //Leiras
+
+        $app->get('/termekek', function(Request $request, Response $response) {
+            $termekek = Termek::all();
+            $kimenet = $termekek -> toJson();
+    
+            $response->getBody()->write($kimenet);
+            return $response->withHeader('Content-Type', 'application/json');
+        });
+    
+        $app->post('/termekek', function(Request $request, Response $response) {
+            $input = json_decode($request->getBody(), true);
+            // Bemenet validáció!
+            $termek = Termek::create($input);
+            $termek->save();
+    
+            $kimenet = $termek->toJson();
+    
+            
+            $response->getBody()->write($kimenet);
+            return $response
+                ->withStatus(201) // "Created" status code
+                ->withHeader('Content-Type', 'application/json');
+        });
+    
+        $app->delete('/termekek/{id}',
+            function (Request $request, Response $response, array $args) {
+                if (!is_numeric($args['id']) || $args['id'] <= 0) {
+                    $ki = json_encode(['error' => 'Az ID pozitív egész szám kell legyen!']);
+                    $response->getBody()->write($ki);
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(400);
+                }
+                $termek = Termek::find($args['id']);
+                if ($termek === null) {
+                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék']);
+                    $response->getBody()->write($ki);
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(404);
+                }
+                $termek->delete();
+                return $response
+                    ->withStatus(204);
+            });
+            
+    
+            $app->put('/termekek/{id}', function(Request $request, Response $response, array $args){
+                if (!is_numeric($args['id']) || $args['id'] <= 0) {
+                    $ki = json_encode(['error' => 'Az ID pozitív egész szám kell legyen!']);
+                    $response->getBody()->write($ki);
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(400);
+                }
+                $termek = Termek::find($args['id']);
+                if ($termek === null) {
+                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék']);
+                    $response->getBody()->write($ki);
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(404);
+                }
+                $input = json_decode($request->getBody(), true);
+                $termek->fill($input);
+                $termek->save();
+                $response->getBody()->write($termek->toJson());
+                return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(200);
+            });
+    
+            $app->get('/termekek/{id}', function(Request $request, Response $response, array $args){
+                if (!is_numeric($args['id']) || $args['id'] <= 0) {
+                    $ki = json_encode(['error' => 'Az ID pozitív egész szám kell legyen!']);
+                    $response->getBody()->write($ki);
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(400);
+                }
+                $termek = Termek::find($args['id']);
+                if ($termek === null) {
+                    $ki = json_encode(['error' => 'Nincs ilyen ID-jű termék']);
+                    $response->getBody()->write($ki);
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(404);
+                }
+
+                $response->getBody()->write($termek->toJson());
+                return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(200);
+            });
             
 };
